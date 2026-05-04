@@ -9,7 +9,7 @@ interface AuthTemplateProps {
 
 const AuthTemplate = (
     {title,subtitle,children}:AuthTemplateProps) => {
-        return {
+        return (
             <View>
                 <Text>(title)</Text>
                 ( subtitle && <Text>(subtitle)</Text>)
@@ -17,7 +17,7 @@ const AuthTemplate = (
                     {children}
                 </View>
             </View>
-        };
+        );
     };
 
 export default AuthTemplate;

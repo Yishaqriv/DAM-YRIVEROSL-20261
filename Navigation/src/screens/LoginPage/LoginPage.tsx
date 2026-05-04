@@ -3,14 +3,14 @@ import { AuthTemplate } from "../../components/templates";
 import { LoginForm } from "../../components/organisms";
 
 const LoginPage = () => {
-    return {
+    return (
         <AuthTemplate
             title= "Login">
-            </LoginForm>
+            <LoginForm/>
             
         </AuthTemplate>
 
-    }
+    )
 }
 
 export default LoginPage;
