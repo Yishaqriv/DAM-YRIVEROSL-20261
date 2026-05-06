@@ -11,8 +11,8 @@ const AuthTemplate = (
     {title,subtitle,children}:AuthTemplateProps) => {
         return (
             <View>
-                <Text>(title)</Text>
-                ( subtitle && <Text>(subtitle)</Text>)
+                <Text>{title}</Text>
+                {subtitle && <Text>{subtitle}</Text>}
                 <View>
                     {children}
                 </View>
