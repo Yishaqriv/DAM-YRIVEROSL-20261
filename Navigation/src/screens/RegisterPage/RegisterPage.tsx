@@ -1,13 +1,26 @@
 import React from "react";
 import { AuthTemplate } from "../../components/templates";
 import { RegisterForm } from "../../components/organisms";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AuthStackParamList } from "../../routes";
+
+
+
 
 const RegisterPage = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
+
+    const handleRegister = () => {
+        console.log("Tap en registro");
+        navigation.navigate("Login");
+    }
     return (
         <AuthTemplate
         title="Register"
         subtitle="Create a new account">
-            <RegisterForm/>
+            <RegisterForm onSubmit={handleRegister}/>
         </AuthTemplate>
     )
 }

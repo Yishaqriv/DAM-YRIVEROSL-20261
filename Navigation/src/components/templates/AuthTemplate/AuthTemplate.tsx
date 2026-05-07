@@ -8,7 +8,7 @@ interface AuthTemplateProps {
 }
 
 const AuthTemplate = (
-    {title,subtitle,children}:AuthTemplateProps) => {
+    {title,subtitle,children}: AuthTemplateProps) => {
         return (
             <View>
                 <Text>{title}</Text>
