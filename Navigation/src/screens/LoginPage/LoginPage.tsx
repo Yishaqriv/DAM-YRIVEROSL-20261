@@ -19,7 +19,7 @@ const LoginPage = () => {
     return (
         <AuthTemplate
             title= "Login">
-            <LoginForm onSubmit={handleLogin}/>
+            <LoginForm onSubmit={handleLogin} disableAction={false}/>
             
         </AuthTemplate>
 

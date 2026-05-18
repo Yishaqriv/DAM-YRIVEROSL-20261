@@ -5,15 +5,19 @@ import { Button } from "../../atoms";
 
 interface LoginFormProps{
     onSubmit: () => void;
+    disableAction: boolean;
 }
 
 const LoginForm = (
-    {onSubmit}:LoginFormProps
+    {
+        onSubmit,
+        disableAction
+    }:LoginFormProps
 ) => {
     return(
         <View>
             <Text>Formulario Login</Text>
-            <Button title="Iniciar Sesion" onSubmit={onSubmit}></Button>
+            <Button title="Iniciar Sesion" onSubmit={onSubmit} disabled={disableAction}></Button>
         </View>
     )
 }
