@@ -1,33 +1,63 @@
+import React, { useEffect, useState } from "react";
+import { View, ActivityIndicator } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Reac from "react";
-import { Text } from "react-native";
-import { AuthStackParamList } from "./routes";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
-import { LoginPage, RegisterPage } from "./screens";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AuthStackParamList, AppStackParamList } from "./routes";
+import { LoginPage, RegisterPage, DashboardPage, RegisterProductPage } from "./screens";
+import { AuthService } from "./components/core/services";
 
-const Stack = createNativeStackNavigator<AuthStackParamList>();
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const AppStack = createNativeStackNavigator<AppStackParamList>();
 
-const App =() => {
-  return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Login"
-          screenOptions={{
-            headerShown: false,
-            contentStyle:{
-              backgroundColor: "#fff"
-            }
-          }}>
+const App = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-            <Stack.Screen name="Login" component={LoginPage}></Stack.Screen>
-            <Stack.Screen name="Register" component={RegisterPage}></Stack.Screen>
+    const checkSession = async () => {
+        try {
+            const user = await AuthService.getSession();
+            setIsLoggedIn(!!user);
+        } catch {
+            setIsLoggedIn(false);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
-  )
-}
+    useEffect(() => {
+        checkSession();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#007680" }}>
+                <ActivityIndicator size="large" color="#ef7f00" />
+            </View>
+        );
+    }
+
+    return (
+        <SafeAreaProvider>
+            <NavigationContainer>
+                {isLoggedIn ? (
+                    <AppStack.Navigator screenOptions={{ headerShown: false }}>
+                        <AppStack.Screen name="Dashboard">
+                            {() => <DashboardPage onLogout={() => setIsLoggedIn(false)} />}
+                        </AppStack.Screen>
+                        <AppStack.Screen name="RegisterProduct" component={RegisterProductPage} />
+                    </AppStack.Navigator>
+                ) : (
+                    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+                        <AuthStack.Screen name="Login">
+                            {() => <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />}
+                        </AuthStack.Screen>
+                        <AuthStack.Screen name="Register" component={RegisterPage} />
+                    </AuthStack.Navigator>
+                )}
+            </NavigationContainer>
+        </SafeAreaProvider>
+    );
+};
 
 export default App;
